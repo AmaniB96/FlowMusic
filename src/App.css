@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+body {
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  margin: 0;
+  background-color: rgb(31, 31, 31);
+  color: white;
+  font-family: "Titillium Web", sans-serif;
+  overflow-x: hidden;
+}
+
+#root{
+  height: 100%;
+  width: 100%;
+}
+
+.nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  width: 100%;
+}
+
+.logo {
+  height: 130px;
+  width: 130px;
+  z-index: 3;
+  transition: ease-in-out 0.2s;
+  cursor: pointer;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  gap: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+.app{
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  align-items: center;
+  justify-content: center;
+  padding-left: 150px;
+  padding-right: 150px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: background-image 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  background-attachment: fixed;
+  filter: blur(5px);
+  z-index: 0;
+}
+
+h1 {
+  z-index: 1;
+  margin-top: 0;
+}
+
+form {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(52, 50, 50, 0.542);
+  backdrop-filter: blur(30px);
+  border-radius: 25px;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  gap: 0.5rem;
+}
+
+form:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(206, 204, 205, 0.2);
+}
+
+form:focus-within {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 1rem 1.5rem;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  text-align: left;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Updated song card styles */
+.song-card {
+  width: 300px;
+  background: rgba(30, 30, 32, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: calc(0.1s * var(--index, 0));
+  opacity: 0;
+  position: relative;
+}
+
+.song-card:hover {
+  transform: translateY(10px);
+}
+
+.song-card__image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.song-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.song-card:hover .song-card__image img {
+  transform: scale(1.08);
+}
+
+.song-card__play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.song-card:hover .song-card__play-overlay {
+  opacity: 1;
+}
+
+.song-card__play-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #b45309; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.song-card__play-btn:hover {
+  transform: scale(1);
+  background: #d97706;
+}
+
+.song-card__content {
+  padding: 20px;
+}
+
+.song-card__title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-card__artist {
+  font-weight: 500;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+}
+
+.song-card__album {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-card__player {
+  margin-top: 15px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+audio {
+  width: 100%;
+  height: 32px;
+  opacity: 0.9;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Minimalist player controls */
+audio::-webkit-media-controls-panel {
+  background: linear-gradient(to right, #92400e, #b45309);
+  padding: 0 10px;
+  height: 32px;
+}
+
+audio::-webkit-media-controls-play-button {
+  background-color: white;
+  border-radius: 50%;
+  transform: scale(0.8);
+  transition: transform 0.2s ease;
+}
+
+audio::-webkit-media-controls-play-button:hover {
+  transform: scale(0.9);
+}
+
+audio::-webkit-media-controls-mute-button {
+  background-color: white;
+  border-radius: 50%;
+  transform: scale(0.7);
+}
+
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  margin: 0 2px;
+}
+
+audio::-webkit-media-controls-timeline {
+  border-radius: 10px;
+  height: 3px;
+  margin: 0 5px;
+}
+
+audio::-webkit-media-controls-volume-slider {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  height: 3px;
+  padding: 0;
+}
+
+/* Update buttons to match new color scheme */
+.search {
+  background: rgba(30, 30, 32, 0.7);
+  border: none;
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0;
+  width: auto;
+  align-self: auto;
+}
+
+.search:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(184, 183, 183, 0.5);
+  background: #30302f; /* Deep amber/gold */
+}
+
+.see-more-btn {
+  background: rgba(30, 30, 32, 0.7);
+  border: none;
+  border-radius: 25px;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(214, 213, 212, 0.3);
+  margin: 40px 0;
+  z-index: 1;
+}
+
+.see-more-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(184, 183, 183, 0.5);
+  background: rgba(28, 28, 29, 0.7)
+}
