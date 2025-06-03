@@ -48,18 +48,20 @@ function GridMotion() {
           const artists = artistsByRow[rowIndex]
           
           // Create an array of promises for this row
-          const rowPromises = artists.map(artist => 
-            axios.get(`https://cors-anywhere.herokuapp.com/https://api.deezer.com/search?q=${artist}`, {
-              headers: { 'Access-Control-Allow-Origin': '*' }
-            })
-            .then(response => {
-              if (response.data.data && response.data.data.length > 0) {
-                return response.data.data[0].artist.picture_xl
+          const rowPromises = artists.map(async (artist) => {
+            try {
+              const response = await axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.deezer.com/search?q=${artist}`)}`)
+              const data = JSON.parse(response.data.contents)
+              
+              if (data.data && data.data.length > 0) {
+                return data.data[0].artist.picture_xl
               }
-              return 'https://via.placeholder.com/150'
-            })
-            .catch(() => 'https://via.placeholder.com/150')
-          )
+              return fallbackImage
+            } catch (err) {
+              console.error(`Error fetching ${artist}:`, err)
+              return fallbackImage
+            }
+          })
           
           // Wait for all promises in this row to resolve
           const results = await Promise.all(rowPromises)

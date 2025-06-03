@@ -14,14 +14,14 @@ function App() {
 
   const handleSearch = async (query) => {
     try {
-      const response = await axios.get(`https://cors-anywhere.herokuapp.com/https://api.deezer.com/search?q=${query}`, {
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        }
-      })
-      setData(response.data.data) 
-      if (response.data.data.length > 0) {
-        setArtistImage(response.data.data[0].artist.picture_xl)
+      // Replace CORS-Anywhere with allorigins.win
+      const response = await axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.deezer.com/search?q=${query}`)}`)
+      
+      // Parse the response since allorigins returns it as a string
+      const data = JSON.parse(response.data.contents)
+      setData(data.data) 
+      if (data.data.length > 0) {
+        setArtistImage(data.data[0].artist.picture_xl)
       }
       setError(null)
     } catch (err) {
