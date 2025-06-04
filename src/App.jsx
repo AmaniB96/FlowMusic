@@ -14,19 +14,26 @@ function App() {
 
   const handleSearch = async (query) => {
     const isDev = import.meta.env.DEV;
-    const PROXY_URL = 'https://cors.bridged.cc/'; // New proxy: cors.bridged.cc
-    const TARGET_URL = `https://api.deezer.com/search?q=${encodeURIComponent(query)}`; // Ensure query itself is encoded for Deezer
+    // Define the new proxy URL
+    const newProxyUrl = 'https://corsproxy.io/?'; 
+    // Define the target Deezer API URL using the 'query' parameter from the search
+    const deezerApiTargetUrl = `https://api.deezer.com/search?q=${encodeURIComponent(query)}`;
 
-    const searchUrl = isDev
-      ? `/api/search?q=${encodeURIComponent(query)}` 
-      : `${PROXY_URL}${TARGET_URL}`; 
+    let searchUrl;
+
+    if (isDev) {
+      searchUrl = `/api/search?q=${encodeURIComponent(query)}`;
+    } else {
+      // The target URL (deezerApiTargetUrl) needs to be encoded before appending to newProxyUrl
+      searchUrl = `${newProxyUrl}${encodeURIComponent(deezerApiTargetUrl)}`;
+    }
     
     const requestTimeout = isDev ? 5000 : 20000; 
 
     try {
       setError(null); 
+      console.log(`[App.jsx] Searching with URL: ${searchUrl}`); 
       const response = await axios.get(searchUrl, { timeout: requestTimeout });
-      
       
       const deezerData = response.data; 
 
@@ -42,7 +49,6 @@ function App() {
       if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
         errorMessage = 'Search timed out. The service might be slow. Please try again.';
       } else if (err.response) {
-        // Log more details from the error response if available
         console.error('Proxy/API Error Response:', err.response.data, err.response.status, err.response.headers);
         if (err.response.status === 403) {
           errorMessage = 'Access to the data service was forbidden. The proxy might be blocked or the API may require different authentication.';
